@@ -1,0 +1,88 @@
+Directory Structure:
+
+├── .env
+├── .gitignore
+├── README.md
+├── backend/
+│   ├── .env
+│   ├── config/
+│   │   ├── db.js
+│   ├── controllers/
+│   ├── middleware/
+│   │   ├── admin.js
+│   │   ├── auth.js
+│   ├── models/
+│   │   ├── Election.js
+│   │   ├── User.js
+│   │   ├── Vote.js
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes/
+│   │   ├── admin.js
+│   │   ├── auth.js
+│   │   ├── vote.js
+│   ├── server.js
+│   ├── services/
+│   │   ├── BlockchainService.js
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── public/
+│   ├── vite.svg
+├── s.js
+├── src/
+│   ├── App.css
+│   ├── App.tsx
+│   ├── assets/
+│   │   ├── react.svg
+│   ├── components/
+│   │   ├── Navbar.tsx
+│   │   ├── ProtectedRoute.tsx
+│   │   ├── admin/
+│   │   ├── charts/
+│   │   ├── ui/
+│   │   │   ├── Navbar.tsx
+│   │   ├── user/
+│   ├── context/
+│   │   ├── AuthContext.tsx
+│   │   ├── Web3Context.tsx
+│   ├── hooks/
+│   │   ├── useVoting.ts
+│   ├── index.css
+│   ├── layouts/
+│   │   ├── Layout.tsx
+│   ├── main.tsx
+│   ├── pages/
+│   │   ├── AdminDashboard.tsx
+│   │   ├── Home.tsx
+│   │   ├── Login.tsx
+│   │   ├── Profile.tsx
+│   │   ├── Register.tsx
+│   │   ├── Results.tsx
+│   │   ├── Vote.tsx
+│   │   ├── admin/
+│   │   │   ├── Dashboard.tsx
+│   │   ├── auth/
+│   │   │   ├── Login.tsx
+│   │   │   ├── Register.tsx
+│   │   ├── user/
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── ResultsPage.tsx
+│   │   │   ├── VotePage.tsx
+│   ├── routes/
+│   │   ├── ProtectedRoute.tsx
+│   ├── services/
+│   │   ├── api.ts
+│   │   ├── contractService.ts
+│   ├── styles/
+│   ├── types/
+│   │   ├── window.d.ts
+│   ├── utils/
+│   │   ├── api.ts
+│   │   ├── helpers.ts
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts

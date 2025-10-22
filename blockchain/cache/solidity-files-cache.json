@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "D:\\react\\BlockChain Voting\\votechain-client\\blockchain\\contracts\\VoteChain.sol": {
+      "lastModificationDate": 1761142755480,
+      "contentHash": "ab8929482e9c42bf3a4c3d9e037533f5",
+      "sourceName": "contracts/VoteChain.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.8.17 <0.9.0"
+      ],
+      "artifacts": [
+        "VoteChain"
+      ]
+    }
+  }
+}

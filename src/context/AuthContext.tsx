@@ -1,54 +1,106 @@
-import { createContext, useContext, useState,  useEffect } from "react";
-import type { ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 
-import {jwtDecode} from "jwt-decode";
-
-interface AuthContextType {
-  user: any;
-  token: string | null;
-  login: (token: string) => void;
-  logout: () => void;
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  cnic?: string;
+  mobileNumber?: string;
+  age?: number;
+  verified: boolean;
+  approved: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  token: null,
-  login: () => {},
-  logout: () => {},
-});
+interface AuthContextType {
+  user: User | null;
+  token: string | null;
+  login: (token: string, userData: User) => void;
+  logout: () => void;
+  isAuthenticated: boolean;
+  loading: boolean;
+}
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-  const [user, setUser] = useState<any>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded: any = jwtDecode(token);
-        setUser(decoded);
-      } catch (err) {
-        console.error("Invalid token");
-        logout();
-      }
-    }
-  }, [token]);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
 
-  const login = (jwt: string) => {
-    localStorage.setItem("token", jwt);
-    setToken(jwt);
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const login = (token: string, userData: User) => {
+    localStorage.setItem('token', token);
+    setToken(token);
+    setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setToken(null);
     setUser(null);
   };
 
+  const isAuthenticated = !!token;
+
+  useEffect(() => {
+    const initAuth = async () => {
+      if (token) {
+        try {
+          // Decode JWT token to get user info
+          const base64Url = token.split('.')[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split('')
+              .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+              .join('')
+          );
+
+          const decodedToken = JSON.parse(jsonPayload);
+          
+          setUser({
+            id: decodedToken.id,
+            name: decodedToken.name || '',
+            email: decodedToken.email || '',
+            walletAddress: decodedToken.walletAddress || '',
+            role: decodedToken.role || 'user'
+          });
+        } catch (error) {
+          console.error('Error decoding token:', error);
+          logout(); // Clear invalid token
+        }
+      }
+      setLoading(false);
+    };
+
+    initAuth();
+  }, [token]);
+
+  const contextValue: AuthContextType = {
+    user,
+    token,
+    login,
+    logout,
+    isAuthenticated,
+    loading
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);
